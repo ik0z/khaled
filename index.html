@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khaled M. Alshammri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --bg-card: #14141f;
+            --bg-card-hover: #1c1c2a;
+            --accent-primary: #00ffaa;
+            --accent-secondary: #00ccff;
+            --accent-tertiary: #ff00aa;
+            --accent-warning: #ffaa00;
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-color: #2a2a3a;
+            --border-glow: rgba(0, 255, 170, 0.3);
+            --shadow-glow: 0 0 40px rgba(0, 255, 170, 0.15);
+            --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --gradient-secondary: linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image:
+                linear-gradient(var(--accent-primary) 1px, transparent 1px),
+                linear-gradient(90deg, var(--accent-primary) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(150px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.07;
+        }
+
+        .bg-glow-1 {
+            top: -200px;
+            right: -200px;
+            background: var(--accent-primary);
+            animation: float1 15s ease-in-out infinite;
+        }
+
+        .bg-glow-2 {
+            bottom: -200px;
+            left: -200px;
+            background: var(--accent-secondary);
+            animation: float2 18s ease-in-out infinite;
+        }
+
+        .bg-glow-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--accent-tertiary);
+            animation: float3 20s ease-in-out infinite;
+            opacity: 0.04;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(1.1); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.7rem 2rem;
+            background: rgba(10, 10, 15, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
+        }
+
+        .logo::before {
+            content: '>';
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .nav-link:hover::before {
+            width: 60%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-primary);
+            background: rgba(0, 255, 170, 0.1);
+        }
+
+        .nav-link.active::before {
+            width: 60%;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cards-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 100%;
+            min-height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .cards-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 255, 170, 0.06) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            background: var(--bg-card-hover);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 255, 170, 0.15), rgba(0, 204, 255, 0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-primary);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .card-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-id::before {
+            content: '#';
+            opacity: 0.5;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .card-tag.severity-critical {
+            background: rgba(255, 0, 80, 0.15);
+            color: #ff5080;
+        }
+
+        .card-tag.severity-high {
+            background: rgba(255, 100, 0, 0.15);
+            color: #ff8040;
+        }
+
+        .card-tag.severity-medium {
+            background: rgba(255, 170, 0, 0.15);
+            color: #ffaa00;
+        }
+
+        .card-tag.severity-low {
+            background: rgba(0, 200, 150, 0.15);
+            color: #00c896;
+        }
+
+        .card-tag.severity-pending {
+            background: rgba(128, 128, 128, 0.15);
+            color: #888888;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: var(--accent-secondary);
+        }
+
+        .card-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 255, 170, 0.1);
+        }
+
+        .search-box svg {
+            stroke: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .clear-search {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .clear-search:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .status-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .status-filter {
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .status-filter:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        .status-filter.active {
+            background: rgba(0, 255, 170, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .no-results svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--text-muted);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        mark {
+            background: rgba(0, 255, 170, 0.3);
+            color: var(--accent-primary);
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+        }
+
+        .article-view {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .article-view.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .article-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+            border-color: var(--border-glow);
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .markdown-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+
+        .markdown-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .markdown-content h1:first-child {
+            margin-top: 0;
+        }
+
+        .markdown-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        .markdown-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .markdown-content p {
+            margin: 1rem 0;
+            color: var(--text-secondary);
+        }
+
+        .markdown-content a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .markdown-content a:hover {
+            border-bottom-color: var(--accent-primary);
+        }
+
+        .markdown-content code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-secondary);
+        }
+
+        .markdown-content pre {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        .markdown-content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .markdown-content ul, .markdown-content ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .markdown-content li {
+            margin: 0.5rem 0;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .markdown-content th, .markdown-content td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+
+        .markdown-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .markdown-content hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2rem 0;
+        }
+
+        .about-page {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .about-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .profile-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 255, 170, 0.15), rgba(0, 204, 255, 0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border: 2px solid var(--border-color);
+        }
+
+        .profile-avatar svg {
+            stroke: var(--accent-primary);
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .profile-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1.25rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .profile-stat-value {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .profile-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-link:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-glow);
+            color: var(--text-primary);
+        }
+
+        .profile-link svg {
+            stroke: var(--accent-primary);
+        }
+
+        .about-main {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .about-page {
+                grid-template-columns: 1fr;
+            }
+
+            .about-sidebar {
+                position: static;
+            }
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            color: var(--text-muted);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            margin-bottom: 1rem;
+            opacity: 0.5;
+            display: flex;
+            justify-content: center;
+        }
+
+        .empty-state-icon svg {
+            width: 64px;
+            height: 64px;
+            stroke: var(--accent-primary);
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+                border-bottom: 1px solid var(--border-color);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                gap: 2rem;
+            }
+
+            .markdown-content {
+                padding: 1.5rem;
+            }
+
+            .about-main {
+                padding: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-color);
+        }
+
+        ::selection {
+            background: rgba(0, 255, 170, 0.3);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo" onclick="navigateTo('about')">Khaled</div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a class="nav-link active" data-section="about" onclick="navigateTo('about')">About</a>
+                <a class="nav-link" data-section="cves" onclick="navigateTo('cves')">CVEs</a>
+                <a class="nav-link" data-section="projects" onclick="navigateTo('projects')">Projects</a>
+                <a class="nav-link" data-section="articles" onclick="navigateTo('articles')">Articles</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- About Section -->
+            <section id="about" class="section active">
+                <div class="about-page">
+                    <div class="about-sidebar">
+                        <div class="profile-card">
+                            <div class="profile-avatar">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <h2 class="profile-name">Khaled M. Alshammri</h2>
+                            <p class="profile-title">Security Researcher & Offsec</p>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span class="profile-stat-value" id="cve-count">0</span>
+                                    <span class="profile-stat-label">CVEs</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span class="profile-stat-value" id="project-count">0</span>
+                                    <span class="profile-stat-label">Projects</span>
+                                </div>
+                            </div>
+                            <div class="profile-links">
+                                <a href="#cves" class="profile-link" onclick="navigateTo('cves')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    View CVEs
+                                </a>
+                                <a href="#projects" class="profile-link" onclick="navigateTo('projects')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                                    View Projects
+                                </a>
+                                <a href="#articles" class="profile-link" onclick="navigateTo('articles')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                                    View Articles
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-main">
+                        <div id="about-markdown" class="markdown-content">
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                                <span>Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CVEs Section -->
+            <section id="cves" class="section">
+                <div class="cards-header">
+                    <h2 class="section-title">CVE Discoveries</h2>
+                    <span class="cards-count" id="cves-count-label">0 vulnerabilities</span>
+                </div>
+                <div class="search-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input type="text" id="cve-search" placeholder="Search CVE ID (e.g., CVE-2026-42858)" oninput="filterCVEs(this.value)">
+                    <button class="clear-search" onclick="clearSearch()" style="display:none">&times;</button>
+                </div>
+                <div class="status-filters">
+                    <button class="status-filter active" data-status="all" onclick="filterByStatus('all')">All</button>
+                    <button class="status-filter" data-status="release" onclick="filterByStatus('release')">Release</button>
+                    <button class="status-filter" data-status="pending" onclick="filterByStatus('pending')">Pending</button>
+                </div>
+                <div id="cves-list" class="cards-grid">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading CVEs...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CVE Article View -->
+            <section id="cve-article" class="article-view">
+                <button class="back-btn" onclick="navigateTo('cves')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to CVEs
+                </button>
+                <div class="article-header">
+                    <h1 class="article-title" id="cve-article-title"></h1>
+                    <div class="article-meta" id="cve-article-meta"></div>
+                </div>
+                <div id="cve-article-content" class="markdown-content"></div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="section">
+                <div class="cards-header">
+                    <h2 class="section-title">Projects</h2>
+                    <span class="cards-count" id="projects-count-label">0 projects</span>
+                </div>
+                <div id="projects-list" class="cards-grid">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading Projects...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Articles Section -->
+            <section id="articles" class="section">
+                <div class="cards-header">
+                    <h2 class="section-title">Articles</h2>
+                    <span class="cards-count" id="articles-count-label">0 articles</span>
+                </div>
+                <div id="articles-list" class="cards-grid">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading Articles...</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>Khaled M. Alshammri &copy; <span id="current-year"></span></p>
+    </footer>
+
+    <script>
+        // GitHub repository configuration
+        const GITHUB_CONFIG = {
+            owner: '', // Will be auto-detected from github.io URL
+            repo: '',  // Will be auto-detected from github.io URL
+            branch: 'main'
+        };
+
+        // Data storage
+        let cvesData = [];
+        let projectsData = [];
+        let articlesData = [];
+
+        // SVG Icons
+        const icons = {
+            shield: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+            terminal: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
+            book: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+            link: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+            folder: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Detect GitHub config from URL
+            detectGitHubConfig();
+
+            // Load all content
+            await Promise.all([
+                loadAboutContent(),
+                loadCVEsFromFolders(),
+                loadProjectsFromReadme(),
+                loadArticlesFromReadme()
+            ]);
+
+            // Handle hash navigation
+            handleHashChange();
+            window.addEventListener('hashchange', handleHashChange);
+
+            // Scroll effect for nav
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('nav');
+                nav.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            // Card mouse tracking
+            document.addEventListener('mousemove', (e) => {
+                document.querySelectorAll('.card').forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+                    card.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+                });
+            });
+        });
+
+        // Detect GitHub configuration from URL
+        function detectGitHubConfig() {
+            const hostname = window.location.hostname;
+            if (hostname.endsWith('.github.io')) {
+                GITHUB_CONFIG.owner = hostname.replace('.github.io', '');
+                GITHUB_CONFIG.repo = window.location.pathname.split('/')[1] || GITHUB_CONFIG.owner + '.github.io';
+            }
+        }
+
+        // Fetch helper with fallback
+        async function fetchContent(path) {
+            try {
+                const response = await fetch(path);
+                if (response.ok) return await response.text();
+            } catch (e) {}
+            return null;
+        }
+
+        // Load CVEs from folders dynamically
+        async function loadCVEsFromFolders() {
+            const container = document.getElementById('cves-list');
+            const countLabel = document.getElementById('cves-count-label');
+
+            try {
+                // Try GitHub API first (for github.io)
+                if (GITHUB_CONFIG.owner && GITHUB_CONFIG.repo) {
+                    const apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/CVEs`;
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const folders = await response.json();
+                        cvesData = folders
+                            .filter(item => item.type === 'dir' && item.name.startsWith('CVE-'))
+                            .map(item => ({ id: item.name }));
+                    }
+                }
+
+                // If no data from API, try loading from a manifest
+                if (cvesData.length === 0) {
+                    const manifest = await fetchContent('CVEs/manifest.json');
+                    if (manifest) {
+                        cvesData = JSON.parse(manifest);
+                    }
+                }
+
+                // Load details for each CVE
+                await Promise.all(cvesData.map(async (cve) => {
+                    const readme = await fetchContent(`CVEs/${cve.id}/README.md`);
+                    if (readme) {
+                        const parsed = parseCVEReadme(readme);
+                        Object.assign(cve, parsed);
+                    }
+                }));
+
+                // Sort by CVE ID (newest first)
+                cvesData.sort((a, b) => b.id.localeCompare(a.id));
+
+                // Update UI
+                document.getElementById('cve-count').textContent = cvesData.length;
+                countLabel.textContent = `${cvesData.length} vulnerabilit${cvesData.length === 1 ? 'y' : 'ies'}`;
+
+                if (cvesData.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">${icons.shield}</div>
+                            <p>No CVEs found. Add CVE folders to the <code>CVEs/</code> directory.</p>
+                        </div>`;
+                    return;
+                }
+
+                renderCVEsList(cvesData);
+
+            } catch (error) {
+                console.error('Error loading CVEs:', error);
+                container.innerHTML = `<div class="empty-state"><p>Error loading CVEs</p></div>`;
+            }
+        }
+
+        // Parse CVE README.md to extract metadata
+        function parseCVEReadme(markdown) {
+            const result = {};
+
+            // Extract title from first H1
+            const titleMatch = markdown.match(/^#\s+(.+?)(?:\n|$)/m);
+            if (titleMatch) {
+                result.title = titleMatch[1].replace(/^CVE-\d{4}-\d+[:\s]*/i, '').trim();
+            }
+
+            // Extract from table format
+            const severityMatch = markdown.match(/\*\*Severity\*\*\s*\|\s*(\w+)/i);
+            if (severityMatch) result.severity = severityMatch[1];
+
+            const cvssMatch = markdown.match(/\*\*CVSS(?:\s+Score)?\*\*\s*\|\s*([\d.]+)/i);
+            if (cvssMatch) result.cvss = cvssMatch[1];
+
+            // Extract description (first paragraph after Summary or Description header)
+            const descMatch = markdown.match(/##\s*(?:Summary|Description)\s*\n+([^\n#]+)/i);
+            if (descMatch) {
+                result.description = descMatch[1].trim().substring(0, 200);
+                if (descMatch[1].trim().length > 200) result.description += '...';
+            }
+
+            // Check if pending
+            if (markdown.toLowerCase().includes('pending') && markdown.toLowerCase().includes('disclosure')) {
+                result.severity = result.severity || 'Pending';
+            }
+
+            return result;
+        }
+
+        // Load Projects from single README.md
+        async function loadProjectsFromReadme() {
+            const container = document.getElementById('projects-list');
+            const countLabel = document.getElementById('projects-count-label');
+
+            try {
+                const readme = await fetchContent('Projects/README.md');
+                if (!readme) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">${icons.folder}</div>
+                            <p>No projects found. Create <code>Projects/README.md</code></p>
+                        </div>`;
+                    countLabel.textContent = '0 projects';
+                    return;
+                }
+
+                projectsData = parseProjectsReadme(readme);
+                document.getElementById('project-count').textContent = projectsData.length;
+                countLabel.textContent = `${projectsData.length} project${projectsData.length === 1 ? '' : 's'}`;
+
+                if (projectsData.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">${icons.folder}</div>
+                            <p>No projects defined in README.md</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = projectsData.map(project => `
+                    <div class="card" ${project.url ? `onclick="window.open('${project.url}', '_blank')"` : ''}>
+                        <div class="card-icon">${icons.terminal}</div>
+                        <h3 class="card-title">${project.name}</h3>
+                        <p class="card-description">${project.description || ''}</p>
+                        ${project.url ? `<a class="card-link" href="${project.url}" target="_blank" onclick="event.stopPropagation()">${icons.link} View Project</a>` : ''}
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                container.innerHTML = `<div class="empty-state"><p>Error loading projects</p></div>`;
+            }
+        }
+
+        // Parse Projects README.md
+        // Format: ## Project Name\nDescription\n[Link](URL)
+        function parseProjectsReadme(markdown) {
+            const projects = [];
+            const sections = markdown.split(/(?=^##\s)/m);
+
+            sections.forEach(section => {
+                const nameMatch = section.match(/^##\s+(.+?)(?:\n|$)/m);
+                if (!nameMatch) return;
+
+                const name = nameMatch[1].trim();
+                const content = section.substring(nameMatch[0].length).trim();
+
+                // Extract URL
+                const urlMatch = content.match(/\[.*?\]\((https?:\/\/[^\s)]+)\)/);
+                const url = urlMatch ? urlMatch[1] : null;
+
+                // Extract description (text before URL or all content)
+                let description = content
+                    .replace(/\[.*?\]\(https?:\/\/[^\s)]+\)/g, '')
+                    .replace(/https?:\/\/[^\s]+/g, '')
+                    .trim()
+                    .split('\n')[0];
+
+                if (name && name !== 'Projects') {
+                    projects.push({ name, description, url });
+                }
+            });
+
+            return projects;
+        }
+
+        // Load Articles from single README.md
+        async function loadArticlesFromReadme() {
+            const container = document.getElementById('articles-list');
+            const countLabel = document.getElementById('articles-count-label');
+
+            try {
+                const readme = await fetchContent('Articles/README.md');
+                if (!readme) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">${icons.book}</div>
+                            <p>No articles found. Create <code>Articles/README.md</code></p>
+                        </div>`;
+                    countLabel.textContent = '0 articles';
+                    return;
+                }
+
+                articlesData = parseArticlesReadme(readme);
+                countLabel.textContent = `${articlesData.length} article${articlesData.length === 1 ? '' : 's'}`;
+
+                if (articlesData.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">${icons.book}</div>
+                            <p>No articles defined in README.md</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = articlesData.map(article => `
+                    <div class="card" onclick="window.open('${article.url}', '_blank')">
+                        <div class="card-icon">${icons.book}</div>
+                        <h3 class="card-title">${article.title}</h3>
+                        ${article.description ? `<p class="card-description">${article.description}</p>` : ''}
+                        <a class="card-link" href="${article.url}" target="_blank" onclick="event.stopPropagation()">${icons.link} Read Article</a>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                container.innerHTML = `<div class="empty-state"><p>Error loading articles</p></div>`;
+            }
+        }
+
+        // Parse Articles README.md
+        // Format: ## Article Title\nOptional description\n[Link](URL)
+        function parseArticlesReadme(markdown) {
+            const articles = [];
+            const sections = markdown.split(/(?=^##\s)/m);
+
+            sections.forEach(section => {
+                const titleMatch = section.match(/^##\s+(.+?)(?:\n|$)/m);
+                if (!titleMatch) return;
+
+                const title = titleMatch[1].trim();
+                const content = section.substring(titleMatch[0].length).trim();
+
+                // Extract URL
+                const urlMatch = content.match(/\[.*?\]\((https?:\/\/[^\s)]+)\)/) ||
+                                content.match(/(https?:\/\/[^\s]+)/);
+                const url = urlMatch ? urlMatch[1] : null;
+
+                // Extract description
+                let description = content
+                    .replace(/\[.*?\]\(https?:\/\/[^\s)]+\)/g, '')
+                    .replace(/https?:\/\/[^\s]+/g, '')
+                    .trim()
+                    .split('\n')[0];
+
+                if (title && title !== 'Articles' && url) {
+                    articles.push({ title, description, url });
+                }
+            });
+
+            return articles;
+        }
+
+        // Load About content
+        async function loadAboutContent() {
+            const container = document.getElementById('about-markdown');
+            const content = await fetchContent('AboutMe/about.md');
+            if (content) {
+                container.innerHTML = marked.parse(content);
+                highlightCode(container);
+            } else {
+                container.innerHTML = '<p>Create <code>AboutMe/about.md</code> to add your biography.</p>';
+            }
+        }
+
+        // Load CVE article
+        async function loadCVEArticle(id) {
+            const titleEl = document.getElementById('cve-article-title');
+            const metaEl = document.getElementById('cve-article-meta');
+            const contentEl = document.getElementById('cve-article-content');
+
+            titleEl.textContent = id;
+            metaEl.innerHTML = '';
+            contentEl.innerHTML = '<div class="loading"><div class="loading-spinner"></div><span>Loading...</span></div>';
+
+            const cve = cvesData.find(c => c.id === id);
+            if (cve) {
+                titleEl.textContent = cve.title || id;
+                if (cve.severity) {
+                    metaEl.innerHTML += `<span class="card-tag severity-${cve.severity.toLowerCase()}">${cve.severity}</span>`;
+                }
+                if (cve.cvss) {
+                    metaEl.innerHTML += `<span class="card-tag">CVSS ${cve.cvss}</span>`;
+                }
+            }
+
+            const content = await fetchContent(`CVEs/${id}/README.md`);
+            if (content) {
+                contentEl.innerHTML = marked.parse(content);
+                highlightCode(contentEl);
+            } else {
+                contentEl.innerHTML = '<p>CVE documentation not found.</p>';
+            }
+        }
+
+        // Navigation
+        function navigateTo(section, id = null) {
+            window.location.hash = id ? `${section}/${id}` : section;
+        }
+
+        function handleHashChange() {
+            const hash = window.location.hash.slice(1) || 'about';
+            const [section, id] = hash.split('/');
+
+            // Hide all sections
+            document.querySelectorAll('.section, .article-view').forEach(s => s.classList.remove('active'));
+
+            // Update nav
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.toggle('active',
+                    link.dataset.section === section ||
+                    (link.dataset.section === 'cves' && section === 'cve-article'));
+            });
+
+            // Show section
+            if (section === 'cves' && id) {
+                document.getElementById('cve-article').classList.add('active');
+                loadCVEArticle(id);
+            } else {
+                const sectionEl = document.getElementById(section);
+                if (sectionEl) sectionEl.classList.add('active');
+            }
+
+            closeMobileMenu();
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            document.querySelector('.nav-links').classList.remove('active');
+        }
+
+        function highlightCode(container) {
+            container.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+        }
+
+        // CVE Search/Filter
+        let activeStatusFilter = 'all';
+
+        function filterByStatus(status) {
+            activeStatusFilter = status;
+            document.querySelectorAll('.status-filter').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.status === status);
+            });
+            const searchInput = document.getElementById('cve-search');
+            filterCVEs(searchInput.value);
+        }
+
+        function filterCVEs(query) {
+            const searchInput = document.getElementById('cve-search');
+            const clearBtn = document.querySelector('.clear-search');
+            const container = document.getElementById('cves-list');
+
+            // Show/hide clear button
+            clearBtn.style.display = query ? 'flex' : 'none';
+
+            const searchTerm = query.toLowerCase().trim();
+
+            let filtered = cvesData;
+
+            // Apply status filter
+            if (activeStatusFilter === 'pending') {
+                filtered = filtered.filter(cve =>
+                    (cve.severity && cve.severity.toLowerCase() === 'pending') ||
+                    (cve.severity && cve.severity.toLowerCase().includes('pending'))
+                );
+            } else if (activeStatusFilter === 'release') {
+                filtered = filtered.filter(cve =>
+                    !cve.severity || !cve.severity.toLowerCase().includes('pending')
+                );
+            }
+
+            // Apply search filter
+            if (searchTerm) {
+                filtered = filtered.filter(cve =>
+                    cve.id.toLowerCase().includes(searchTerm) ||
+                    (cve.title && cve.title.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            renderCVEsList(filtered, searchTerm);
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('cve-search');
+            searchInput.value = '';
+            filterCVEs('');
+            searchInput.focus();
+        }
+
+        function renderCVEsList(cves, highlight = '') {
+            const container = document.getElementById('cves-list');
+
+            if (cves.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <p>No CVEs found matching your search</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = cves.map(cve => {
+                let displayId = cve.id;
+                let displayTitle = cve.title || cve.id;
+
+                // Highlight matching text
+                if (highlight) {
+                    const regex = new RegExp(`(${highlight})`, 'gi');
+                    displayId = displayId.replace(regex, '<mark>$1</mark>');
+                    displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
+                }
+
+                return `
+                    <div class="card" onclick="navigateTo('cves', '${cve.id}')">
+                        <div class="card-icon">${icons.shield}</div>
+                        <div class="card-id">${displayId}</div>
+                        <h3 class="card-title">${displayTitle}</h3>
+                        <p class="card-description">${cve.description || 'Click to view details'}</p>
+                        <div class="card-meta">
+                            ${cve.severity ? `<span class="card-tag severity-${cve.severity.toLowerCase()}">${cve.severity}</span>` : ''}
+                            ${cve.cvss ? `<span class="card-tag">CVSS ${cve.cvss}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
